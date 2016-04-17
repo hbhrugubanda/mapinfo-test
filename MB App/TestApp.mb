@@ -1,0 +1,52 @@
+'****************************************************************************
+' Include files and Define statements
+'****************************************************************************
+Include "mapbasic.def"
+Include "menu.def"  
+Include "icons.def" 
+Include "vmDev.def"
+
+
+'****************************************************************************
+' .NET Functions
+'****************************************************************************
+Declare Method fromInteropHelper Class "InteropHelper.MIFunctions" Lib "InteropHelper.dll" ()
+
+   
+ 
+Declare Sub Main
+Declare Sub MapInfoTest
+Declare Sub bye
+
+
+'****************************************************************************
+' Sub procedure: Main
+'
+' The Main procedure 
+'****************************************************************************
+Sub Main
+	Create Menu "Mapinfo Test" As
+	"&Load" + Chr$(9) + "CTRL-1/W^%49" Calling MapInfoTest,
+	"E&xit" + Chr$(9) + "Shift-1/W#%49" Calling Bye
+
+	Alter Menu "Tools" 
+		Add "&Mapinfo Test" As "Mapinfo Test"
+		
+End Sub
+
+Sub MapInfoTest
+	OnError Goto HandleError
+	Call fromInteropHelper()
+	Exit Sub
+	HandleError:
+    	Note "Error: " + Error$()
+	
+End Sub
+
+Sub bye 
+  OnError Goto HandleError
+  End Program
+  HandleError:
+    Note "bye: " + Error$()
+    Resume Next 
+End Sub
